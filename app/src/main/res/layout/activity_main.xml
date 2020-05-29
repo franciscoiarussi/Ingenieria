@@ -37,6 +37,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Switch"
-        tools:layout_editor_absoluteX="203dp"
-        tools:layout_editor_absoluteY="253dp" />
+        tools:layout_editor_absoluteX="146dp"
+        tools:layout_editor_absoluteY="590dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
