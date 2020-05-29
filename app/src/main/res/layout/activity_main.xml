@@ -32,11 +32,18 @@
         tools:layout_editor_absoluteX="136dp"
         tools:layout_editor_absoluteY="146dp" />
 
-    <Switch
-        android:id="@+id/switch1"
+    <RatingBar
+        android:id="@+id/ratingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Switch"
-        tools:layout_editor_absoluteX="203dp"
-        tools:layout_editor_absoluteY="253dp" />
+        android:layout_marginStart="143dp"
+        android:layout_marginLeft="143dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginRight="28dp"
+        android:layout_marginBottom="31dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button" />
 </androidx.constraintlayout.widget.ConstraintLayout>
