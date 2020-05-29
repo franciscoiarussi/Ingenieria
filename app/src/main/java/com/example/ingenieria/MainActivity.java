@@ -86,5 +86,6 @@ public class MainActivity extends AppCompatActivity {
             registerReceiver(nBroadcastReceiver1, BTIntent);
         }
 
+
     }
 }
