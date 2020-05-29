@@ -1,5 +1,6 @@
 package com.example.ingenieria;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompatSideChannelService;
 
@@ -166,6 +167,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         // Descubrir
         btnDescubrir.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "btnDescubrir:mirar distintos dispositivos");
@@ -187,18 +189,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 }
             }
 
-            private void checkBTPermissions() {
-                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) ;
-                {
-                    int permissionCheck = this.checkSelfPermissions("Manifest.permission.ACCESS_FINE_LOCATION");
-                    permissionCheck += this.checkSelfPermissions("Manifest.permission.ACCESS_COARSE_LOCATION");
-                    if (permissionCheck != 0) {
-                        this.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1001);
-                    } else {
-                        Log.d(TAG, "checkBTPpermission: no need to check permission SDK version < LOLLIPOP");
-                    }
-                }
-            }
+
         });
     }
 
@@ -247,4 +238,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             nBTDevices.get(i).createBond();
         }
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void checkBTPermissions() {
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP){
+            int permissionCheck = this.checkSelfPermission("Manifest.permission.ACCESS_FINE_LOCATION");
+            permissionCheck += this.checkSelfPermission("Manifest.permission.ACCESS_COARSE_LOCATION");
+            if (permissionCheck != 0) {
+
+                this.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1001); //Any number
+            }
+        }else{
+            Log.d(TAG, "checkBTPermissions: No need to check permissions. SDK version < LOLLIPOP.");
+        }
+    }
+
 }
