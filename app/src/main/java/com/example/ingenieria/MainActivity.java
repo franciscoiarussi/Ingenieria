@@ -89,11 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void fran(){
-        Log.d(TAG, "fran kpo");
-    }
 
-    public void Yago(){}
 
 
 }
