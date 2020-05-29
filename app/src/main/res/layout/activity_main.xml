@@ -33,12 +33,13 @@
         tools:layout_editor_absoluteY="146dp" />
 
     <Switch
-        android:id="@+id/switch1"
+        android:id="@+id/switch2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Switch"
-        tools:layout_editor_absoluteX="68dp"
-        tools:layout_editor_absoluteY="624dp" />
+        tools:layout_editor_absoluteX="271dp"
+        tools:layout_editor_absoluteY="154dp" /><![CDATA[
+
     android:layout_marginStart="143dp"
         android:layout_marginLeft="143dp"
         android:layout_marginTop="150dp"
@@ -49,4 +50,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button" />
+]]>
 </androidx.constraintlayout.widget.ConstraintLayout>
