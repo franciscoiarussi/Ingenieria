@@ -31,4 +31,12 @@
         android:text="YAGOOOOO"
         tools:layout_editor_absoluteX="136dp"
         tools:layout_editor_absoluteY="146dp" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Switch"
+        tools:layout_editor_absoluteX="203dp"
+        tools:layout_editor_absoluteY="253dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
