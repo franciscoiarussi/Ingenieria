@@ -41,24 +41,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Descubrir"
-        android:onClick="btnDiscover"
         tools:layout_editor_absoluteX="293dp"
         tools:layout_editor_absoluteY="67dp" />
+
     <ListView
+        android:id="@+id/lvNewDevices"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:id="@+id/lvNewDevices"
-        />><![CDATA[
-
-    android:layout_marginStart="143dp"
-    android:layout_marginLeft="143dp"
-    android:layout_marginTop="150dp"
-    android:layout_marginEnd="28dp"
-    android:layout_marginRight="28dp"
-    android:layout_marginBottom="31dp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/button" />
-]]>
+        tools:layout_editor_absoluteX="35dp"
+        tools:layout_editor_absoluteY="326dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
