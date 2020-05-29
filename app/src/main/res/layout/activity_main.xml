@@ -15,13 +15,4 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:text="habilitar reconocibles"
-        android:id="@+id/btnDiscoverable_on_off"
-        android:onClick="btnEnableDisable_discoverable"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
