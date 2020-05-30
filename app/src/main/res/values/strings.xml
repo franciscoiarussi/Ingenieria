@@ -2,4 +2,6 @@
     <string name="app_name">Ingenieria</string>
     <string name="hola_yago_mai_y_flor">Hola Yago, Mai y Flor</string>
     <string name="on_off">On/off</string>
+    <string name="visibilidad">Visibilidad</string>
+    <string name="descubrir">Descubrir</string>
 </resources>

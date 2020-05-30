@@ -10,7 +10,7 @@
         android:id="@+id/btnONOFF"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="On/Off"
+        android:text="@string/on_off"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.108"
@@ -30,7 +30,7 @@
         android:layout_marginEnd="149dp"
         android:layout_marginRight="149dp"
         android:layout_marginBottom="620dp"
-        android:text="Visibilidad"
+        android:text="@string/visibilidad"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnONOFF"
@@ -40,14 +40,22 @@
         android:id="@+id/btnFindUnpairedDevices"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Descubrir"
-        tools:layout_editor_absoluteX="293dp"
-        tools:layout_editor_absoluteY="67dp" />
+        android:text="@string/descubrir"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.68"
+        app:layout_constraintStart_toEndOf="@+id/btnVisibilidad"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.092" />
 
     <ListView
         android:id="@+id/lvNewDevices"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         tools:layout_editor_absoluteX="35dp"
-        tools:layout_editor_absoluteY="326dp" />
+        tools:layout_editor_absoluteY="326dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
