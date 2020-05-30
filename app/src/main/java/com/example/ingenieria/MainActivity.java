@@ -132,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         btnVisibilidad = (Button) findViewById(R.id.btnVisibilidad);
         lvNewDevices = (ListView) findViewById(R.id.lvNewDevices);
         nBTDevices = new ArrayList<>();
+        btnDescubrir = (Button) findViewById(R.id.btnFindUnpairedDevices);
 
         IntentFilter filter=new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
         registerReceiver(nBroadcastReceiver4,filter);
@@ -168,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // Descubrir
         btnDescubrir.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
+
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "btnDescubrir:mirar distintos dispositivos");
