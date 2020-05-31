@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -86,17 +87,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     };
 
-    private BroadcastReceiver nBroadcastReceiver3 = new BroadcastReceiver() {
+    private final BroadcastReceiver nBroadcastReceiver3 = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            final String action= intent.getAction();
+            final String action = intent.getAction();
             Log.d(TAG, "onReceive: ACTION FOUND");
-            if(action.equals(BluetoothDevice.ACTION_FOUND)){
+            if (action.equals(BluetoothDevice.ACTION_FOUND)) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 nBTDevices.add(device);
                 Log.d(TAG, "onReceive: " + device.getName() + ":" + device.getAddress());
-                nDeviceListAdapter = new DeviceListAdapter(context,R.layout.device_adapter_view,nBTDevices);
-                lvNewDevices.setAdapter((ListAdapter) nDeviceListAdapter);
+                nDeviceListAdapter = new DeviceListAdapter(context, R.layout.device_adapter_view, nBTDevices);
+                lvNewDevices.setAdapter(nDeviceListAdapter);
             }
         }
     };
@@ -114,11 +115,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 }
                 //caso 2 : creating a bone
                 if(mDevice.getBondState()==BluetoothDevice.BOND_BONDING){
-                    Log.d(TAG,"BroadcastReceiver: BOND_BONDED");
+                    Log.d(TAG,"BroadcastReceiver: BOND_BONDING");
                 }
                 //caso 3 : nreaking a bond
                 if(mDevice.getBondState()==BluetoothDevice.BOND_NONE){
-                    Log.d(TAG,"BroadcastReceiver: BOND_BONDED");
+                    Log.d(TAG,"BroadcastReceiver: BOND_NONE");
                 }
             }
         }
@@ -130,16 +131,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_main);
         Button btnONOFF = (Button) findViewById(R.id.btnONOFF);
         btnVisibilidad = (Button) findViewById(R.id.btnVisibilidad);
-        lvNewDevices = (ListView) findViewById(R.id.lvNewDevices);
+        lvNewDevices=(ListView) findViewById(R.id.lvNewDevices);
         nBTDevices = new ArrayList<>();
         btnDescubrir = (Button) findViewById(R.id.btnFindUnpairedDevices);
+        nBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         IntentFilter filter=new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
         registerReceiver(nBroadcastReceiver4,filter);
 
-        nBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
 
         lvNewDevices.setOnItemClickListener(MainActivity.this);
+
         //PRENDER-APAGAR BLUETOOTH
         btnONOFF.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         // Descubrir
         btnDescubrir.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
+            @RequiresApi(api = Build.VERSION_CODES.Q)
 
             @Override
             public void onClick(View view) {
@@ -215,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             IntentFilter BTIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
             registerReceiver(nBroadcastReceiver1, BTIntent);
         }
-    }
+    } // habilita bluetooth
     @Override
     protected void onDestroy() {
         Log.d(TAG, "onDestroy:called");
@@ -224,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         unregisterReceiver(nBroadcastReceiver2);
         unregisterReceiver(nBroadcastReceiver3);
         unregisterReceiver(nBroadcastReceiver4);
-    }
+    } /// Se destruye los receiver
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -243,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void checkBTPermissions() {
-        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP){
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.M){
             int permissionCheck = this.checkSelfPermission("Manifest.permission.ACCESS_FINE_LOCATION");
             permissionCheck += this.checkSelfPermission("Manifest.permission.ACCESS_COARSE_LOCATION");
             if (permissionCheck != 0) {
@@ -253,6 +256,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }else{
             Log.d(TAG, "checkBTPermissions: No need to check permissions. SDK version < LOLLIPOP.");
         }
-    }
+    } // chekea version de android con permisos
 
 }
