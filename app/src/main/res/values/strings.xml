@@ -4,4 +4,7 @@
     <string name="on_off">On/off</string>
     <string name="visibilidad">Visibilidad</string>
     <string name="descubrir">Descubrir</string>
+    <string name="iniciar_conexion">Iniciar Conexion</string>
+    <string name="ingrese_el_texto">Ingrese el texto</string>
+    <string name="enviar">Enviar</string>
 </resources>
