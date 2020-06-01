@@ -3,6 +3,7 @@ package com.example.ingenieria;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompatSideChannelService;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
@@ -21,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -36,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     ListView lvNewDevices;
     Button btnDescubrir;
     Button btnSend;
+    TextView incomingMessage;
+    StringBuilder messages;
     Button btnStartConnection;
     EditText editText;
     BluetoothConnectionService mBluetoothConnection;
@@ -135,6 +139,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     };
 
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String text=intent.getStringExtra("elMensaje");
+
+            messages.append(text="\n");
+            incomingMessage.setText(messages);
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,6 +165,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         btnStartConnection = (Button) findViewById(R.id.btnStartConnection);
         btnSend = (Button) findViewById(R.id.btnSend);
+        incomingMessage=(TextView)findViewById(R.id.MensajeEntrante);
+        messages = new StringBuilder();
+        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver,  new IntentFilter("MensajeEntrante"));
+
         editText = (EditText) findViewById(R.id.editText);
 
         lvNewDevices.setOnItemClickListener(MainActivity.this);
@@ -219,6 +237,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             public void onClick(View view) {
                 byte[] bytes = editText.getText().toString().getBytes(Charset.defaultCharset());
                 mBluetoothConnection.write(bytes);
+                editText.setText("");
             }
         });
     }
