@@ -1,9 +1,5 @@
 package com.example.ingenieria;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompatSideChannelService;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
@@ -18,15 +14,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.UUID;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
     private static final String TAG = "MainActivity";
@@ -139,15 +138,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     };
 
+
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String text=intent.getStringExtra("elMensaje");
-
-            messages.append(text="\n");
+            messages.append(text + "\n");
             incomingMessage.setText(messages);
         }
     };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,9 +159,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         nBTDevices = new ArrayList<>();
         btnDescubrir = (Button) findViewById(R.id.btnFindUnpairedDevices);
         nBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        editText = (EditText) findViewById(R.id.editText);
 
-        IntentFilter filter=new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
-        registerReceiver(nBroadcastReceiver4,filter);
 
         btnStartConnection = (Button) findViewById(R.id.btnStartConnection);
         btnSend = (Button) findViewById(R.id.btnSend);
@@ -169,7 +168,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         messages = new StringBuilder();
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver,  new IntentFilter("MensajeEntrante"));
 
-        editText = (EditText) findViewById(R.id.editText);
+        //cuando el bond realice cambios
+        IntentFilter filter=new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
+        registerReceiver(nBroadcastReceiver4,filter);
+
+
 
         lvNewDevices.setOnItemClickListener(MainActivity.this);
 
@@ -271,6 +274,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             registerReceiver(nBroadcastReceiver1, BTIntent);
         }
     } // habilita bluetooth
+
+
     @Override
     protected void onDestroy() {
         Log.d(TAG, "onDestroy:called");
@@ -301,7 +306,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void checkBTPermissions() {
-        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.M){
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP){
             int permissionCheck = this.checkSelfPermission("Manifest.permission.ACCESS_FINE_LOCATION");
             permissionCheck += this.checkSelfPermission("Manifest.permission.ACCESS_COARSE_LOCATION");
             if (permissionCheck != 0) {
@@ -312,5 +317,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             Log.d(TAG, "checkBTPermissions: No need to check permissions. SDK version < LOLLIPOP.");
         }
     } // chekea version de android con permisos
+
+
 
 }

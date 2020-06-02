@@ -7,4 +7,5 @@
     <string name="iniciar_conexion">Iniciar Conexion</string>
     <string name="ingrese_el_texto">Ingrese el texto</string>
     <string name="enviar">Enviar</string>
+    <string name="mensaje_entrante">Mensaje Entrante</string>
 </resources>
