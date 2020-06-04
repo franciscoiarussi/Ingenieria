@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.nio.charset.Charset;
@@ -37,10 +38,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     ListView lvNewDevices;
     Button btnDescubrir;
     Button btnSend;
+    Button btnPlay;
+    Button btnSpeed;
+    Button btnReady;
+    Switch switchOnOff;
     TextView incomingMessage;
     StringBuilder messages;
     Button btnStartConnection;
     EditText editText;
+    EditText editTextSpeed;
     BluetoothConnectionService mBluetoothConnection;
     private static final UUID MY_UUID_INSECURE = UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
     BluetoothDevice mBTDevice;
@@ -160,10 +166,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         btnDescubrir = (Button) findViewById(R.id.btnFindUnpairedDevices);
         nBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         editText = (EditText) findViewById(R.id.editText);
+        editTextSpeed = (EditText) findViewById(R.id.editTextSpeed);
 
-
+        final Switch switchOnOff=(Switch) findViewById(R.id.switchOnOff);
         btnStartConnection = (Button) findViewById(R.id.btnStartConnection);
         btnSend = (Button) findViewById(R.id.btnSend);
+        btnPlay = (Button) findViewById(R.id.btnPlay);
+        btnSpeed = (Button) findViewById(R.id.btnSpeed);
+        btnReady = (Button) findViewById(R.id.btnReady);
         incomingMessage=(TextView)findViewById(R.id.MensajeEntrante);
         messages = new StringBuilder();
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver,  new IntentFilter("MensajeEntrante"));
@@ -243,6 +253,43 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 editText.setText("");
             }
         });
+        btnPlay.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                String play="play";
+                byte[] bytes = play.getBytes(Charset.defaultCharset());
+                mBluetoothConnection.write(bytes);
+            }
+        });
+        btnReady.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                String ready="ready";
+                byte[] bytes = ready.getBytes(Charset.defaultCharset());
+                mBluetoothConnection.write(bytes);
+            }
+        });
+        btnSpeed.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                byte[] bytes = editTextSpeed.getText().toString().getBytes(Charset.defaultCharset());
+                mBluetoothConnection.write(bytes);
+                editTextSpeed.setText(0);
+            }
+        });
+        switchOnOff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(switchOnOff.isChecked()){
+                    String on="on";
+                    byte[] bytes = on.getBytes(Charset.defaultCharset());
+                    mBluetoothConnection.write(bytes);
+                }
+                else{
+                    String off="off";
+                    byte[] bytes = off.getBytes(Charset.defaultCharset());
+                    mBluetoothConnection.write(bytes);
+                }
+            }
+        });
+
     }
 
     public void StartConnection() {
