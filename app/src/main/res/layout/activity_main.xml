@@ -8,6 +8,34 @@
     tools:context=".MainActivity">
 
 
+    <EditText
+        android:id="@+id/editTextSpeed"
+        android:layout_width="78dp"
+        android:layout_height="49dp"
+        android:ems="10"
+        android:hint="Speed"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnSpeed"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MensajeEntrante"
+        app:layout_constraintVertical_bias="0.228"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/editTextPulso"
+        android:layout_width="78dp"
+        android:layout_height="49dp"
+        android:layout_marginEnd="260dp"
+        android:layout_marginRight="260dp"
+        android:ems="10"
+        android:hint="Pulso"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnJson" />
+
     <Button
         android:id="@+id/btnONOFF"
         android:layout_width="wrap_content"
@@ -59,10 +87,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
+
     <ListView
         android:id="@+id/lvNewDevices"
-        android:layout_width="377dp"
-        android:layout_height="181dp"
+        android:layout_width="386dp"
+        android:layout_height="73dp"
         android:layout_below="@+id/btnStartConnection"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
@@ -71,13 +100,12 @@
         android:background="#80F2F6F6"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.36">
+        app:layout_constraintVertical_bias="0.334">
 
     </ListView>
-
 
     <Button
         android:id="@+id/btnSend"
@@ -91,10 +119,10 @@
         android:text="@string/enviar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.705" />
+        app:layout_constraintVertical_bias="0.556" />
 
     <EditText
         android:id="@+id/editText"
@@ -134,16 +162,16 @@
 
     <TextView
         android:id="@+id/MensajeEntrante"
-        android:layout_width="373dp"
-        android:layout_height="45dp"
+        android:layout_width="366dp"
+        android:layout_height="56dp"
         android:text="@string/mensaje_entrante"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.31"
+        app:layout_constraintHorizontal_bias="0.433"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.792"
+        app:layout_constraintVertical_bias="0.739"
         tools:ignore="MissingConstraints" />
 
     <Button
@@ -162,22 +190,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/MensajeEntrante" />
 
-    <EditText
-        android:id="@+id/editTextSpeed"
-        android:layout_width="78dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="121dp"
-        android:layout_marginLeft="121dp"
-        android:layout_marginTop="13dp"
-        android:layout_marginBottom="80dp"
-        android:ems="10"
-        android:hint="Speed"
-        android:inputType="number"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnSpeed"
-        app:layout_constraintStart_toEndOf="@+id/btnPlay"
-        app:layout_constraintTop_toBottomOf="@+id/MensajeEntrante" />
-
     <Button
         android:id="@+id/btnSpeed"
         android:layout_width="wrap_content"
@@ -189,7 +201,6 @@
         android:text="Speed"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/editTextSpeed"
         app:layout_constraintTop_toBottomOf="@+id/MensajeEntrante" />
 
     <Button
@@ -214,15 +225,39 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="105dp"
         android:layout_marginLeft="105dp"
-        android:layout_marginTop="21dp"
         android:layout_marginEnd="104dp"
         android:layout_marginRight="104dp"
         android:layout_marginBottom="32dp"
         android:text="ON/OFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnReady"
-        app:layout_constraintTop_toBottomOf="@+id/editTextSpeed" />
+        app:layout_constraintStart_toEndOf="@+id/btnReady" />
+
+    <Button
+        android:id="@+id/btnJson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Json"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnSend"
+        app:layout_constraintHorizontal_bias="0.36"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.556"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/btnStop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.444"
+        app:layout_constraintStart_toEndOf="@+id/btnSend"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.556"
+        tools:ignore="MissingConstraints" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,6 +19,9 @@ import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -33,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     BluetoothAdapter nBluetoothAdapter;
     Button btnVisibilidad;
+    Button btnONOFF;
     public ArrayList<BluetoothDevice> nBTDevices = new ArrayList<>();
     public DeviceListAdapter nDeviceListAdapter;
     ListView lvNewDevices;
@@ -50,6 +54,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     BluetoothConnectionService mBluetoothConnection;
     private static final UUID MY_UUID_INSECURE = UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
     BluetoothDevice mBTDevice;
+    Button btnStop;
+    Button btnJson;
+    EditText editTextPulso;
 
     //Crear BroadcasteReceiver
     private final BroadcastReceiver nBroadcastReceiver1 = new BroadcastReceiver() {
@@ -159,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button btnONOFF = (Button) findViewById(R.id.btnONOFF);
+        btnONOFF = (Button) findViewById(R.id.btnONOFF);
         btnVisibilidad = (Button) findViewById(R.id.btnVisibilidad);
         lvNewDevices=(ListView) findViewById(R.id.lvNewDevices);
         nBTDevices = new ArrayList<>();
@@ -176,16 +183,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         btnReady = (Button) findViewById(R.id.btnReady);
         incomingMessage=(TextView)findViewById(R.id.MensajeEntrante);
         messages = new StringBuilder();
+
+        //Pines de entrada
+        btnStop=(Button) findViewById(R.id.btnStop);
+        btnJson=(Button) findViewById(R.id.btnJson);
+        editTextPulso = (EditText) findViewById(R.id.editTextPulso);
+
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver,  new IntentFilter("MensajeEntrante"));
 
         //cuando el bond realice cambios
         IntentFilter filter=new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
         registerReceiver(nBroadcastReceiver4,filter);
-
-
-
         lvNewDevices.setOnItemClickListener(MainActivity.this);
-
         //PRENDER-APAGAR BLUETOOTH
         btnONOFF.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -270,8 +279,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         btnSpeed.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 byte[] bytes = editTextSpeed.getText().toString().getBytes(Charset.defaultCharset());
+                Log.d(TAG,"speed:"+ editTextSpeed.getText());
                 mBluetoothConnection.write(bytes);
-                editTextSpeed.setText(0);
+                //editTextSpeed.setText(0);
             }
         });
         switchOnOff.setOnClickListener(new View.OnClickListener() {
@@ -287,6 +297,29 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     byte[] bytes = off.getBytes(Charset.defaultCharset());
                     mBluetoothConnection.write(bytes);
                 }
+            }
+        });
+
+        btnStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String mensaje="Stop";
+                byte [] bytes = mensaje.getBytes(Charset.defaultCharset());
+                mBluetoothConnection.write(bytes);
+            }
+        });
+        btnJson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                JSONObject js= new JSONObject();
+                try{
+                    js.put("Pulso",editTextPulso.getText());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                byte[] bytes= js.toString().getBytes();
+                mBluetoothConnection.write(bytes);
+                editTextPulso.setText("");
             }
         });
 
