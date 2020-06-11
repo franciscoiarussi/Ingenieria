@@ -156,6 +156,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         @Override
         public void onReceive(Context context, Intent intent) {
             String text=intent.getStringExtra("elMensaje");
+            try {
+                JSONObject jsonCreado=new JSONObject(text);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             messages.append(text + "\n");
             incomingMessage.setText(messages);
         }
@@ -311,9 +316,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         btnJson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int max,min;
+                max= (int) Math.random();
+                min= (int) Math.random();
                 JSONObject js= new JSONObject();
                 try{
                     js.put("Pulso",editTextPulso.getText());
+                    js.put("max",max);
+                    js.put("min",min);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

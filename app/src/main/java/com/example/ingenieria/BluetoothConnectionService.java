@@ -9,13 +9,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.UUID;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 public class BluetoothConnectionService {
 
@@ -256,6 +256,7 @@ public class BluetoothConnectionService {
                 try {
                     bytes = mmInStream.read(buffer);
                     String incomingMessage = new String(buffer, 0, bytes);
+
                     Log.d(TAG, "InputStream: " + incomingMessage);
 
                     Intent incomingMessageIntent = new Intent("MensajeEntrante");
