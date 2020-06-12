@@ -1,9 +1,6 @@
 package com.example.ingenieria;
 
 import android.os.Bundle;
-import android.widget.AdapterView;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
@@ -12,8 +9,9 @@ import com.github.mikephil.charting.data.LineDataSet;
 
 import java.util.ArrayList;
 
-public class Grafica extends AppCompatActivity
-    {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class Grafica extends AppCompatActivity {
         private LineChart lineChart;
         private LineDataSet lineDataSet;
 
