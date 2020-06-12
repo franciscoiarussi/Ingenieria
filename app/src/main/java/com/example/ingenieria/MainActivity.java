@@ -30,6 +30,11 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
     private static final String TAG = "MainActivity";
@@ -58,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     Button btnJson;
     EditText editTextPulso;
 
+
+
     //Crear BroadcasteReceiver
     private final BroadcastReceiver nBroadcastReceiver1 = new BroadcastReceiver() {
         @Override
@@ -80,6 +87,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         Log.d(TAG,"nBroadcastReceiver1: PRENDIENDO");
                         break;
                 }
+                //se abre para mostrar ek grafico
+                startActivity(new Intent(MainActivity.this, Grafica.class));
             }
         }
     };
@@ -194,6 +203,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         btnJson=(Button) findViewById(R.id.btnJson);
         editTextPulso = (EditText) findViewById(R.id.editTextPulso);
 
+
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver,  new IntentFilter("MensajeEntrante"));
 
         //cuando el bond realice cambios
@@ -214,7 +224,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "btnVisibilidad: Haciendo el dispositivo visible pr 300 segundos");
-
                 Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
                 discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
                 startActivity(discoverableIntent);
@@ -309,7 +318,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View view) {
                 String mensaje="Stop";
-                byte [] bytes = mensaje.getBytes(Charset.defaultCharset());
+               byte [] bytes = mensaje.getBytes(Charset.defaultCharset());
                 mBluetoothConnection.write(bytes);
             }
         });
