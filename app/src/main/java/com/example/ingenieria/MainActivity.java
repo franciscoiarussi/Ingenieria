@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public DeviceListAdapter nDeviceListAdapter;
     ListView lvNewDevices;
     Button btnDescubrir;
-    Button btnSend;
     Button btnPlay;
     Button btnSpeed;
     Button btnReady;
@@ -49,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     TextView incomingMessage;
     StringBuilder messages;
     Button btnStartConnection;
-    EditText editText;
     EditText editTextSpeed;
     BluetoothConnectionService mBluetoothConnection;
     private static final UUID MY_UUID_INSECURE = UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
@@ -189,12 +187,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         nBTDevices = new ArrayList<>();
         btnDescubrir = (Button) findViewById(R.id.btnFindUnpairedDevices);
         nBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        editText = (EditText) findViewById(R.id.editText);
         editTextSpeed = (EditText) findViewById(R.id.editTextSpeed);
 
         final Switch switchOnOff=(Switch) findViewById(R.id.switchOnOff);
         btnStartConnection = (Button) findViewById(R.id.btnStartConnection);
-        btnSend = (Button) findViewById(R.id.btnSend);
         btnPlay = (Button) findViewById(R.id.btnPlay);
         btnSpeed = (Button) findViewById(R.id.btnSpeed);
         btnReady = (Button) findViewById(R.id.btnReady);
@@ -272,13 +268,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
-        btnSend.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                byte[] bytes = editText.getText().toString().getBytes(Charset.defaultCharset());
-                mBluetoothConnection.write(bytes);
-                editText.setText("");
-            }
-        });
         btnPlay.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 String play="play";
