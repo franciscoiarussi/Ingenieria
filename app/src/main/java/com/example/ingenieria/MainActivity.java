@@ -418,6 +418,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
             mBTDevice = nBTDevices.get(i);
             mBluetoothConnection =  new  BluetoothConnectionService ( MainActivity . this );
+
         }
     }
 
