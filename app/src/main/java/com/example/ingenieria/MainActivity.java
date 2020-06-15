@@ -146,6 +146,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 if(mDevice.getBondState()==BluetoothDevice.BOND_BONDED){
                     Log.d(TAG,"BroadcastReceiver: BOND_BONDED");
                     mBTDevice = mDevice;
+
+                    btnPlay.setEnabled(true);
+                    btnReady.setEnabled(true);
+                    btnSpeed.setEnabled(true);
+                    switchOnOff.setEnabled(true);
                 }
                 //caso 2 : creating a bone
                 if(mDevice.getBondState()==BluetoothDevice.BOND_BONDING){
@@ -154,6 +159,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 //caso 3 : nreaking a bond
                 if(mDevice.getBondState()==BluetoothDevice.BOND_NONE){
                     Log.d(TAG,"BroadcastReceiver: BOND_NONE");
+                    btnPlay.setEnabled(false);
+                    btnReady.setEnabled(false);
+                    btnSpeed.setEnabled(false);
+                    switchOnOff.setEnabled(false);
                 }
             }
         }
@@ -246,6 +255,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                 IntentFilter intentFilter = new IntentFilter(nBluetoothAdapter.ACTION_SCAN_MODE_CHANGED);
                 registerReceiver(nBroadcastReceiver2, intentFilter);
+                btnDescubrir.setEnabled(true);
             }
 
         });
@@ -274,6 +284,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     IntentFilter descubrirDispositivosIntent = new IntentFilter(BluetoothDevice.ACTION_FOUND);
                     registerReceiver(nBroadcastReceiver3, descubrirDispositivosIntent);
                 }
+                btnStartConnection.setEnabled(true);
             }
 
 
@@ -283,6 +294,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         btnStartConnection.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 StartConnection();
+                btnPlay.setEnabled(true);
+                btnReady.setEnabled(true);
+                btnSpeed.setEnabled(true);
+                switchOnOff.setEnabled(true);
             }
         });
 
@@ -382,12 +397,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
             IntentFilter BTIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
             registerReceiver(nBroadcastReceiver1, BTIntent);
+            btnVisibilidad.setEnabled(true);
         }
         if(nBluetoothAdapter.isEnabled()){
             Log.d(TAG, "enableDisableBT: apagando");
             nBluetoothAdapter.disable();
             IntentFilter BTIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
             registerReceiver(nBroadcastReceiver1, BTIntent);
+            btnVisibilidad.setEnabled(false);
         }
     }
 
