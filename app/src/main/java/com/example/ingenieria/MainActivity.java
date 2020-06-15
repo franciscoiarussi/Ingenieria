@@ -146,14 +146,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 if(mDevice.getBondState()==BluetoothDevice.BOND_BONDED){
                     Log.d(TAG,"BroadcastReceiver: BOND_BONDED");
                     mBTDevice = mDevice;
-                    btnPlay = (Button) findViewById(R.id.btnPlay);
-                    btnSpeed = (Button) findViewById(R.id.btnSpeed);
-                    btnReady = (Button) findViewById(R.id.btnReady);
-                    final Switch switchOnOff=(Switch) findViewById(R.id.switchOnOff);
-                    btnPlay.setEnabled(true);
-                    btnReady.setEnabled(true);
-                    btnSpeed.setEnabled(true);
-                    switchOnOff.setEnabled(true);
                 }
                 //caso 2 : creating a bone
                 if(mDevice.getBondState()==BluetoothDevice.BOND_BONDING){
@@ -162,14 +154,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 //caso 3 : nreaking a bond
                 if(mDevice.getBondState()==BluetoothDevice.BOND_NONE){
                     Log.d(TAG,"BroadcastReceiver: BOND_NONE");
-                    btnPlay = (Button) findViewById(R.id.btnPlay);
-                    btnSpeed = (Button) findViewById(R.id.btnSpeed);
-                    btnReady = (Button) findViewById(R.id.btnReady);
-                    final Switch switchOnOff=(Switch) findViewById(R.id.switchOnOff);
-                    btnPlay.setEnabled(false);
-                    btnReady.setEnabled(false);
-                    btnSpeed.setEnabled(false);
-                    switchOnOff.setEnabled(false);
                 }
             }
         }
@@ -190,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 e.printStackTrace();
             }}
         else
-            if(text.contains("Stop")){
+            if(text.contains("stop")){
                 //se abre para mostrar ek grafico
                  startActivity(new Intent(MainActivity.this, Grafica.class));
             }
@@ -222,6 +206,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //pines de salida
         editTextSpeed = (EditText) findViewById(R.id.editTextSpeed);
         final Switch switchOnOff=(Switch) findViewById(R.id.switchOnOff);
+        btnStartConnection = (Button) findViewById(R.id.btnStartConnection);
         btnPlay = (Button) findViewById(R.id.btnPlay);
         btnSpeed = (Button) findViewById(R.id.btnSpeed);
         btnReady = (Button) findViewById(R.id.btnReady);
@@ -238,8 +223,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //cuando el bond realice cambios
         IntentFilter filter=new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
         registerReceiver(nBroadcastReceiver4,filter);
-        lvNewDevices.setOnItemClickListener(MainActivity.this);
-        //PRENDER-APAGAR BLUETOOTH
+
+
+
+        //METODO PRENDER-APAGAR BLUETOOTH
         btnONOFF.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -259,7 +246,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                 IntentFilter intentFilter = new IntentFilter(nBluetoothAdapter.ACTION_SCAN_MODE_CHANGED);
                 registerReceiver(nBroadcastReceiver2, intentFilter);
-                btnDescubrir.setEnabled(true);
             }
 
         });
@@ -293,7 +279,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         });
 
-
+        //METODO QUE REALIZA LA CONECCION DE DOS DISPOSITIVOS
+        btnStartConnection.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                StartConnection();
+            }
+        });
 
         //METODO PLAY
         btnPlay.setOnClickListener(new View.OnClickListener() {
@@ -377,10 +368,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void StartBTConnection(BluetoothDevice device, UUID uuid){
         Log.d(TAG, "startBTConnection: Inicializando conexion de bluetooth RFCOM ");
         mBluetoothConnection.startClient(device, uuid);
-        btnPlay.setEnabled(true);
-        btnReady.setEnabled(true);
-        btnSpeed.setEnabled(true);
-        switchOnOff.setEnabled(true);
      }
 
     // METODO DE HABILITAR BLUETOOTH
@@ -392,7 +379,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             Log.d(TAG, "enableDisableBT: prendidendo");
             Intent enableBTIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivity(enableBTIntent);
-            btnVisibilidad.setEnabled(true);
 
             IntentFilter BTIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
             registerReceiver(nBroadcastReceiver1, BTIntent);
@@ -402,7 +388,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             nBluetoothAdapter.disable();
             IntentFilter BTIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
             registerReceiver(nBroadcastReceiver1, BTIntent);
-            btnVisibilidad.setEnabled(false);
         }
     }
 
