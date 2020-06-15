@@ -169,11 +169,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 JSONObject jsonCreado=new JSONObject(text);
                 messages.append("pulso:"+jsonCreado.getInt("Pulso") + "\n");
                 arrayJson.add(jsonCreado);
+                incomingMessage.setText(messages);
             } catch (JSONException e) {
                 e.printStackTrace();
             }}
         else
-            if(text.contains("stop")){
+            if(text.contains("Stop")){
                 //se abre para mostrar ek grafico
                  startActivity(new Intent(MainActivity.this, Grafica.class));
             }
@@ -352,7 +353,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 }
                 byte[] bytes= js.toString().getBytes();
                 mBluetoothConnection.write(bytes);
-                editTextPulso.setText("");
+                //editTextPulso.setText("");
             }
         });
 
