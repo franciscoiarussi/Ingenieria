@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     Switch switchOnOff;
     TextView incomingMessage;
     StringBuilder messages;
-    Button btnStartConnection;
     EditText editTextSpeed;
     BluetoothConnectionService mBluetoothConnection;
     private static final UUID MY_UUID_INSECURE = UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
@@ -139,6 +138,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 if(mDevice.getBondState()==BluetoothDevice.BOND_BONDED){
                     Log.d(TAG,"BroadcastReceiver: BOND_BONDED");
                     mBTDevice = mDevice;
+                    btnPlay = (Button) findViewById(R.id.btnPlay);
+                    btnSpeed = (Button) findViewById(R.id.btnSpeed);
+                    btnReady = (Button) findViewById(R.id.btnReady);
+                    final Switch switchOnOff=(Switch) findViewById(R.id.switchOnOff);
+                    btnPlay.setEnabled(true);
+                    btnReady.setEnabled(true);
+                    btnSpeed.setEnabled(true);
+                    switchOnOff.setEnabled(true);
                 }
                 //caso 2 : creating a bone
                 if(mDevice.getBondState()==BluetoothDevice.BOND_BONDING){
@@ -147,6 +154,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 //caso 3 : nreaking a bond
                 if(mDevice.getBondState()==BluetoothDevice.BOND_NONE){
                     Log.d(TAG,"BroadcastReceiver: BOND_NONE");
+                    btnPlay = (Button) findViewById(R.id.btnPlay);
+                    btnSpeed = (Button) findViewById(R.id.btnSpeed);
+                    btnReady = (Button) findViewById(R.id.btnReady);
+                    final Switch switchOnOff=(Switch) findViewById(R.id.switchOnOff);
+                    btnPlay.setEnabled(false);
+                    btnReady.setEnabled(false);
+                    btnSpeed.setEnabled(false);
+                    switchOnOff.setEnabled(false);
                 }
             }
         }
@@ -190,7 +205,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         editTextSpeed = (EditText) findViewById(R.id.editTextSpeed);
 
         final Switch switchOnOff=(Switch) findViewById(R.id.switchOnOff);
-        btnStartConnection = (Button) findViewById(R.id.btnStartConnection);
         btnPlay = (Button) findViewById(R.id.btnPlay);
         btnSpeed = (Button) findViewById(R.id.btnSpeed);
         btnReady = (Button) findViewById(R.id.btnReady);
@@ -229,6 +243,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                 IntentFilter intentFilter = new IntentFilter(nBluetoothAdapter.ACTION_SCAN_MODE_CHANGED);
                 registerReceiver(nBroadcastReceiver2, intentFilter);
+                btnDescubrir.setEnabled(true);
             }
 
         });
@@ -262,11 +277,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         });
 
-        btnStartConnection.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                StartConnection();
-            }
-        });
+
 
         btnPlay.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -339,6 +350,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void StartBTConnection(BluetoothDevice device, UUID uuid){
         Log.d(TAG, "startBTConnection: Inicializando conexion de bluetooth RFCOM ");
         mBluetoothConnection.startClient(device, uuid);
+        btnPlay.setEnabled(true);
+        btnReady.setEnabled(true);
+        btnSpeed.setEnabled(true);
+        switchOnOff.setEnabled(true);
      }
 
     public void enableDisableBT(){
@@ -349,6 +364,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             Log.d(TAG, "enableDisableBT: prendidendo");
             Intent enableBTIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivity(enableBTIntent);
+            btnVisibilidad.setEnabled(true);
 
             IntentFilter BTIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
             registerReceiver(nBroadcastReceiver1, BTIntent);
@@ -358,6 +374,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             nBluetoothAdapter.disable();
             IntentFilter BTIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
             registerReceiver(nBroadcastReceiver1, BTIntent);
+            btnVisibilidad.setEnabled(false);
         }
     } // habilita bluetooth
 

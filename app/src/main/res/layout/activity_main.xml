@@ -68,6 +68,7 @@
         android:layout_marginEnd="47dp"
         android:layout_marginRight="47dp"
         android:layout_marginBottom="620dp"
+        android:enabled="false"
         android:text="@string/visibilidad"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnFindUnpairedDevices"
@@ -83,6 +84,7 @@
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="109dp"
+        android:enabled="false"
         android:text="@string/descubrir"
         app:layout_constraintBottom_toTopOf="@+id/lvNewDevices"
         app:layout_constraintEnd_toEndOf="parent"
@@ -93,7 +95,6 @@
         android:id="@+id/lvNewDevices"
         android:layout_width="386dp"
         android:layout_height="73dp"
-        android:layout_below="@+id/btnStartConnection"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
@@ -107,21 +108,6 @@
         app:layout_constraintVertical_bias="0.334">
 
     </ListView>
-
-    <Button
-        android:id="@+id/btnStartConnection"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="124dp"
-        android:layout_marginLeft="124dp"
-        android:layout_marginEnd="124dp"
-        android:layout_marginRight="124dp"
-        android:text="@string/iniciar_conexion"
-        app:layout_constraintBottom_toTopOf="@+id/lvNewDevices"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnVisibilidad"
-        app:layout_constraintVertical_bias="0.461" />
 
     <TextView
         android:id="@+id/MensajeEntrante"
@@ -147,6 +133,7 @@
         android:layout_marginEnd="307dp"
         android:layout_marginRight="307dp"
         android:layout_marginBottom="81dp"
+        android:enabled="false"
         android:text="Play"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -161,6 +148,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="80dp"
+        android:enabled="false"
         android:text="Speed"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -176,6 +164,7 @@
         android:layout_marginEnd="305dp"
         android:layout_marginRight="305dp"
         android:layout_marginBottom="27dp"
+        android:enabled="false"
         android:text="Ready"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -191,6 +180,7 @@
         android:layout_marginEnd="104dp"
         android:layout_marginRight="104dp"
         android:layout_marginBottom="32dp"
+        android:enabled="false"
         android:text="ON/OFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
