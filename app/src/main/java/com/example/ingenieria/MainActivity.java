@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 e.printStackTrace();
             }}
         else
-            if(text.contains("stop")){
+            if(text.contains("Stop")){
                 //se abre para mostrar ek grafico
                  startActivity(new Intent(MainActivity.this, Grafica.class));
             }
