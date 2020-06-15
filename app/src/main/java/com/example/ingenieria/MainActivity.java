@@ -30,26 +30,27 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-
+// mainActivity donde se hace la conexion de los botones de la pantalla del .xml con sus funcionalidades
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
     private static final String TAG = "MainActivity";
 
-    BluetoothAdapter nBluetoothAdapter;
-    Button btnVisibilidad;
-    Button btnONOFF;
-    public ArrayList<BluetoothDevice> nBTDevices = new ArrayList<>();
-    public DeviceListAdapter nDeviceListAdapter;
-    ListView lvNewDevices;
-    Button btnDescubrir;
-    Button btnPlay;
-    Button btnSpeed;
-    Button btnReady;
-    Switch switchOnOff;
-    TextView incomingMessage;
+    BluetoothAdapter nBluetoothAdapter;//objeto adaptador de bluetooth
+    Button btnVisibilidad;//boton visivilidad
+    Button btnONOFF;//boton de encendido apagado
+    public ArrayList<BluetoothDevice> nBTDevices = new ArrayList<>();//arreglo de visivilidad de dispositivo
+    public DeviceListAdapter nDeviceListAdapter;// objeto de la clase DeviceListAdapter
+    ListView lvNewDevices;// listView
+    Button btnDescubrir;//boton descubrir
+    Button btnPlay; //boton play
+    Button btnSpeed; //boton speed
+    Button btnReady;//boton ready
+    Switch switchOnOff;// switch onn/off
+    TextView incomingMessage; //textoView del mensaje entrante
     StringBuilder messages;
+    Button btnStartConnection;
     EditText editTextSpeed;
-    BluetoothConnectionService mBluetoothConnection;
-    private static final UUID MY_UUID_INSECURE = UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
+    BluetoothConnectionService mBluetoothConnection;// objeto de la clase BluetoothConnectionService donde se realiza la conexion
+    private static final UUID MY_UUID_INSECURE = UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66"); //UUID donde se utiliza
     BluetoothDevice mBTDevice;
     Button btnStop;
     Button btnJson;
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public ArrayList<JSONObject> arrayJson=new ArrayList<JSONObject>();
 
 
-    //Crear BroadcasteReceiver
+    //Crear BroadcasteReceiver que le llega un intent donde toma la accion de cambiar de estado al bluetooth
     private final BroadcastReceiver nBroadcastReceiver1 = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -84,6 +85,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     };
 
+
+    //crea un brodcastReceiver donde cambia de de estado la visivilidad de un dispositivo bluetooth
     private final BroadcastReceiver nBroadcastReceiver2 = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -112,6 +115,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     };
 
+
+    // crea un broadcastReceiver donde toma los dispositivos detectados
     private final BroadcastReceiver nBroadcastReceiver3 = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -127,6 +132,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     };
 
+
+
+    //crea un broadcastReceiver donde se crea la pariedad(vinculacion con el dispositivio)
     private BroadcastReceiver nBroadcastReceiver4 = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -167,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     };
 
-
+    //crea un broadcastReceiver donde capta el mensaje entrante y visualiza si es un json,un stop, o un pin de salida
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -177,11 +185,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 JSONObject jsonCreado=new JSONObject(text);
                 messages.append("pulso:"+jsonCreado.getInt("Pulso") + "\n");
                 arrayJson.add(jsonCreado);
+                incomingMessage.setText(messages);
             } catch (JSONException e) {
                 e.printStackTrace();
             }}
         else
-            if(text.contains("stop")){
+            if(text.contains("Stop")){
                 //se abre para mostrar ek grafico
                  startActivity(new Intent(MainActivity.this, Grafica.class));
             }
@@ -191,25 +200,32 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     };
 
-
+    //Clase onCreate donde se inicializa la actividad de la app
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //pines de bluetooth
         btnONOFF = (Button) findViewById(R.id.btnONOFF);
         btnVisibilidad = (Button) findViewById(R.id.btnVisibilidad);
         lvNewDevices=(ListView) findViewById(R.id.lvNewDevices);
         nBTDevices = new ArrayList<>();
         btnDescubrir = (Button) findViewById(R.id.btnFindUnpairedDevices);
         nBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        editTextSpeed = (EditText) findViewById(R.id.editTextSpeed);
+        lvNewDevices.setOnItemClickListener(MainActivity.this);
 
+        //Mensajeria
+        incomingMessage=(TextView)findViewById(R.id.MensajeEntrante);
+        messages = new StringBuilder();
+
+        //pines de salida
+        editTextSpeed = (EditText) findViewById(R.id.editTextSpeed);
         final Switch switchOnOff=(Switch) findViewById(R.id.switchOnOff);
         btnPlay = (Button) findViewById(R.id.btnPlay);
         btnSpeed = (Button) findViewById(R.id.btnSpeed);
         btnReady = (Button) findViewById(R.id.btnReady);
-        incomingMessage=(TextView)findViewById(R.id.MensajeEntrante);
-        messages = new StringBuilder();
+
 
         //Pines de entrada
         btnStop=(Button) findViewById(R.id.btnStop);
@@ -232,7 +248,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
-        //VISIBILIDAD
+        //METODO VISIBILIDAD BLUETOOTH
         btnVisibilidad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -249,7 +265,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         });
 
 
-        // Descubrir
+        //METODO DESCUBRIR BLUETOOTH
         btnDescubrir.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.Q)
 
@@ -279,6 +295,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
 
+        //METODO PLAY
         btnPlay.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 String play="play";
@@ -286,6 +303,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 mBluetoothConnection.write(bytes);
             }
         });
+
+        //METODO READY
         btnReady.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 String ready="ready";
@@ -293,6 +312,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 mBluetoothConnection.write(bytes);
             }
         });
+
+        //METODO SPEED
         btnSpeed.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 byte[] bytes = editTextSpeed.getText().toString().getBytes(Charset.defaultCharset());
@@ -301,6 +322,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 //editTextSpeed.setText(0);
             }
         });
+
+        //METODO SWITCH
         switchOnOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -317,6 +340,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
+        //METODO STOP
         btnStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -325,6 +349,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 mBluetoothConnection.write(bytes);
             }
         });
+
+        //METODO QUE ENVIA JSON CON UN PULSO
         btnJson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -336,17 +362,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 }
                 byte[] bytes= js.toString().getBytes();
                 mBluetoothConnection.write(bytes);
-                editTextPulso.setText("");
+                //editTextPulso.setText("");
             }
         });
 
     }
 
+    //METODO QUE COMIENZA LA CONEXION DE UN DISPOSITIVO
     public void StartConnection() {
         StartBTConnection(mBTDevice,MY_UUID_INSECURE);
     }
 
-
+    //METODO QUE INICIALIZA CONEXION DE BLUETOOTH RFCOM
     public void StartBTConnection(BluetoothDevice device, UUID uuid){
         Log.d(TAG, "startBTConnection: Inicializando conexion de bluetooth RFCOM ");
         mBluetoothConnection.startClient(device, uuid);
@@ -356,6 +383,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         switchOnOff.setEnabled(true);
      }
 
+    // METODO DE HABILITAR BLUETOOTH
     public void enableDisableBT(){
         if(nBluetoothAdapter == null){
             Log.d(TAG, "enbleDisableBT: No tenes un adaptador Bluetooth");
@@ -376,7 +404,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             registerReceiver(nBroadcastReceiver1, BTIntent);
             btnVisibilidad.setEnabled(false);
         }
-    } // habilita bluetooth
+    }
 
 
     @Override
@@ -389,6 +417,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         unregisterReceiver(nBroadcastReceiver4);
     } /// Se destruye los receiver
 
+    //METODO QUE MUESTRA EL NOMBRE Y DIRECCION ADRESS DEL DISPOSITIVO ENCONTRADO
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         nBluetoothAdapter.cancelDiscovery();
@@ -407,7 +436,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+    @RequiresApi(api = Build.VERSION_CODES.M)//API QUE OBTIENE LA VERSION DE ANDROID
+
+    //METODO QUE OBTIENE PERMISOS DE ACCESO CON ANDROID
     private void checkBTPermissions() {
         if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP){
             int permissionCheck = this.checkSelfPermission("Manifest.permission.ACCESS_FINE_LOCATION");
@@ -420,7 +451,5 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             Log.d(TAG, "checkBTPermissions: No need to check permissions. SDK version < LOLLIPOP.");
         }
     } // chekea version de android con permisos
-
-
 
 }
