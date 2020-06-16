@@ -185,7 +185,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         else
             if(text.contains("Stop")){
                 //se abre para mostrar ek grafico
-                 startActivity(new Intent(MainActivity.this, Grafica.class));
+                Grafica.arrayPulso=arrayJson;
+                startActivity(new Intent(MainActivity.this, Grafica.class));
             }
             else{
             messages.append(text + "\n");
