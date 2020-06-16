@@ -7,17 +7,17 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 public class Grafica extends AppCompatActivity {
         private LineChart lineChart;
         private LineDataSet lineDataSet;
-        public static ArrayList<JSONObject> arrayPulso;
+        public static ArrayList<JSONObject> arrayPulso=new ArrayList<JSONObject>();
 
         protected void onCreate(Bundle savedInstanceState) {
             //grafica
@@ -26,7 +26,7 @@ public class Grafica extends AppCompatActivity {
             lineChart = findViewById(R.id.lineChart);
             // Creamos un set de datos
             ArrayList<Entry> lineEntries = new ArrayList<Entry>();
-            for (int i = 0; i < 11; i++) {
+            for (int i = 0; i < arrayPulso.size(); i++) {
                 float y = 0;
                 try {
                     y = (int) arrayPulso.get(i).getInt("Pulso");
