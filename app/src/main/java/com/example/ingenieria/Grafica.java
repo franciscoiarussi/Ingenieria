@@ -11,9 +11,13 @@ import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Grafica extends AppCompatActivity {
         private LineChart lineChart;
         private LineDataSet lineDataSet;
+        public static ArrayList<JSONObject> arrayPulso;
 
         protected void onCreate(Bundle savedInstanceState) {
             //grafica
@@ -23,7 +27,12 @@ public class Grafica extends AppCompatActivity {
             // Creamos un set de datos
             ArrayList<Entry> lineEntries = new ArrayList<Entry>();
             for (int i = 0; i < 11; i++) {
-                float y = (int) (Math.random() * 8) + 1;
+                float y = 0;
+                try {
+                    y = (int) arrayPulso.get(i).getInt("Pulso");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 lineEntries.add(new Entry((float) i, (float) y));
             }
             // Unimos los datos al data set
