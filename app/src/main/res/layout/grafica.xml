@@ -13,11 +13,10 @@
         android:id="@+id/lineChart"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_marginTop="168dp"
-        android:layout_marginBottom="363dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -28,6 +28,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Grafica" />
+        <activity android:name=".GraficaPasos" />
     </application>
 
 </manifest>

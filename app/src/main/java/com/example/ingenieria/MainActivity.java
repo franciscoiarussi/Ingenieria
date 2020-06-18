@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     Button btnPlay; //boton play
     Button btnSpeed; //boton speed
     Button btnReady;//boton ready
+    Button btnLineChart;//grafico de pulso
+    Button btnBarChart;//grafico de pasos
     Switch switchOnOff;// switch onn/off
     TextView incomingMessage; //textoView del mensaje entrante
     StringBuilder messages;
@@ -183,14 +185,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 e.printStackTrace();
             }}
         else
-            if(text.contains("Stop")){
-                //se abre para mostrar ek grafico
-                Grafica.arrayPulso=arrayJson;
-                startActivity(new Intent(MainActivity.this, Grafica.class));
-            }
-            else{
             messages.append(text + "\n");
-            incomingMessage.setText(messages);}
+            incomingMessage.setText(messages);
         }
     };
 
@@ -220,7 +216,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         btnPlay = (Button) findViewById(R.id.btnPlay);
         btnSpeed = (Button) findViewById(R.id.btnSpeed);
         btnReady = (Button) findViewById(R.id.btnReady);
-
+        btnLineChart = (Button) findViewById(R.id.btnLineChart);
+        btnBarChart = (Button) findViewById(R.id.btnBarChart);
 
         //Pines de entrada
         btnStop=(Button) findViewById(R.id.btnStop);
@@ -317,6 +314,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 String ready="ready";
                 byte[] bytes = ready.getBytes(Charset.defaultCharset());
                 mBluetoothConnection.write(bytes);
+            }
+        });
+
+        // METODO GRAFICO PULSO
+        btnLineChart.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Grafica.arrayPulso=arrayJson;
+                startActivity(new Intent(MainActivity.this, Grafica.class));
+            }
+        });
+
+        // METODO GRAFICO PASOS
+        btnBarChart.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, GraficaPasos.class));
             }
         });
 
