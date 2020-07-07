@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,6 +25,7 @@ import org.json.JSONObject;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.UUID;
 
 import androidx.annotation.RequiresApi;
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     Button btnJson;
     EditText editTextPulso;
     public ArrayList<JSONObject> arrayJson=new ArrayList<JSONObject>();
+    private boolean finish = false;
 
 
     //Crear BroadcasteReceiver que le llega un intent donde toma la accion de cambiar de estado al bluetooth
@@ -176,17 +179,25 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         public void onReceive(Context context, Intent intent) {
             String text=intent.getStringExtra("elMensaje");
             if(text.contains("Pulso")){
-            try {
-                JSONObject jsonCreado=new JSONObject(text);
-                messages.append("pulso:"+jsonCreado.getInt("Pulso") + "\n");
-                arrayJson.add(jsonCreado);
-                incomingMessage.setText(messages);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }}
-        else
-            messages.append(text + "\n");
-            incomingMessage.setText(messages);
+                try {
+                    JSONObject jsonCreado=new JSONObject(text);
+                    //messages.set("pulso:"+jsonCreado.getInt("Pulso"));
+                    arrayJson.add(jsonCreado);
+                    incomingMessage.setText("pulso:"+jsonCreado.getInt("Pulso"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            else {
+                if (text.contains("Start")){
+                    Log.d("COMENZAR ","COMENZAR");
+                    btnJson.performClick();
+                }
+                else {
+                    //messages.append(text + "\n");
+                    incomingMessage.setText(text);
+                }
+            }
         }
     };
 
@@ -302,7 +313,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //METODO PLAY
         btnPlay.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                String play="play";
+                String play="Start";
                 byte[] bytes = play.getBytes(Charset.defaultCharset());
                 mBluetoothConnection.write(bytes);
             }
@@ -363,6 +374,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         btnStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                finish = true;
                 String mensaje="Stop";
                byte [] bytes = mensaje.getBytes(Charset.defaultCharset());
                 mBluetoothConnection.write(bytes);
@@ -371,17 +383,43 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         //METODO QUE ENVIA JSON CON UN PULSO
         btnJson.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
-                JSONObject js= new JSONObject();
-                try{
-                    js.put("Pulso",editTextPulso.getText());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                byte[] bytes= js.toString().getBytes();
-                mBluetoothConnection.write(bytes);
-                //editTextPulso.setText("");
+                doAsync.execute(
+                    new Runnable() {
+
+                        @Override
+                        public void run() {
+
+                            while (!finish) {
+
+                                Random r = new Random();
+                                int low = 70;
+                                int high = 90;
+                                int result = r.nextInt(high - low) + low;
+
+                                Log.d("TEST2 ", result + "");
+                                JSONObject js = new JSONObject();
+                                try {
+                                    js.put("Pulso", result);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                byte[] bytes = js.toString().getBytes();
+                                mBluetoothConnection.write(bytes);
+
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            finish = false;
+                        }
+                    }
+                );
             }
         });
 
